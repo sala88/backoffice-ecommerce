@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAuthToken, verifyToken } from '@/server/auth/auth';
+import { getAuthToken, verifyToken } from '../lib/auth';
 
 export async function proxy(req: NextRequest) {
   const pathname = req.nextUrl.pathname;

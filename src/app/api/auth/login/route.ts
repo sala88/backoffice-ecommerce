@@ -1,6 +1,6 @@
-import { prisma } from "@/server/db/prisma"
+import { prisma } from "../../../../../lib/prisma"
 import bcrypt from "bcrypt"
-import { createToken, setAuthCookie } from "@/server/auth/auth"
+import { createToken, setAuthCookie } from "../../../../../lib/auth"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
