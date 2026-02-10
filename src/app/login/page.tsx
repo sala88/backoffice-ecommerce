@@ -23,7 +23,11 @@ export default function LoginPage() {
       if (!res.ok) {
         setError(data.error || "Errore di login");
       } else {
-        window.location.href = "/";
+        // Salva il token JWT se presente
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+        }
+        window.location.href = "/dashboard";
       }
     } catch (err) {
       setError("Errore di rete");

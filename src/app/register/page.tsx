@@ -23,7 +23,8 @@ export default function RegisterPage() {
     // Validazione con zod
     const result = registerSchema.safeParse({ email, password });
     if (!result.success) {
-      setError(result.error.errors[0].message);
+      const firstError = result.error.errors?.[0]?.message || "Invalid input";
+      setError(firstError);
       setLoading(false);
       return;
     }
