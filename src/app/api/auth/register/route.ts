@@ -1,76 +1,41 @@
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
-import { createToken, setAuthCookie } from '@/lib/auth';
-import { NextRequest, NextResponse } from 'next/server';
-
-const prisma = new PrismaClient();
+import { prisma } from "@/server/db/prisma";
+import bcrypt from "bcrypt"
+import { createToken, setAuthCookie } from "@/server/auth/auth"
+import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password, name } = await req.json();
+    const { email, password } = await req.json()
 
     if (!email || !password) {
-      return NextResponse.json(
-        { error: 'Email e password sono richiesti' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Missing data" }, { status: 400 })
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Email non valida' },
-        { status: 400 }
-      );
-    }
+    const normalizedEmail = email.toLowerCase().trim()
 
-    // Validate password length
-    if (password.length < 6) {
-      return NextResponse.json(
-        { error: 'Password deve essere almeno 6 caratteri' },
-        { status: 400 }
-      );
-    }
-
-    // Check if user already exists
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    const existingUser = await prisma.user.findUnique({
+      where: { email: normalizedEmail }
+    })
 
     if (existingUser) {
-      return NextResponse.json(
-        { error: 'Utente con questa email già esiste' },
-        { status: 409 }
-      );
+      return NextResponse.json({ error: "Invalid data" }, { status: 400 })
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hash = await bcrypt.hash(password, 10)
 
-    // Create user
     const user = await prisma.user.create({
       data: {
-        email,
-        password: hashedPassword,
-        name: name || null,
-      },
-    });
+        email: normalizedEmail,
+        password: hash
+      }
+    })
 
-    // Create token and set cookie
-    const token = await createToken(user.id, user.email);
-    await setAuthCookie(token);
+    const token = await createToken(user.id, user.email)
+    await setAuthCookie(token)
 
-    return NextResponse.json(
-      {
-        message: 'Registrazione successful',
-        user: { id: user.id, email: user.email, name: user.name },
-      },
-      { status: 201 }
-    );
-  } catch (error) {
-    console.error('Registration error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ ok: true })
+    } catch (err: any) {
+      console.error(err) // <-- logga l'errore nel terminale
+      return NextResponse.json({ error: err && typeof err === "object" && "message" in err ? (err as any).message : "Server error" }, { status: 500 })
   }
 }

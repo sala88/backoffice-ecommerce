@@ -1,4 +1,4 @@
-import { swaggerDocument } from '@/lib/swagger';
+import { swaggerDocument } from '@/server/swagger/swagger';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
