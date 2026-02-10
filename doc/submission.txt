@@ -1,0 +1,31 @@
+L’idea è sviluppare un mini backoffice per un e-commerce, usando Next.js + TypeScript + Node (stack libero, purché coerente).
+
+Cosa dovrebbe fare:
+- Caricamento prodotti UNICAMENTE tramite file CSV
+- Visualizzazione dei prodotti in una tabella backoffice
+
+Ogni prodotto ha: 
+- nome
+- descrizione
+- prezzo 
+- Gestione dei prodotti in saldo (prezzo scontato o percentuale, a tua scelta)
+(puoi scegliere campi extra se pertinenti)
+
+Ogni prodotto deve poter essere modificato ed eliminato dalla pagina specifica di prodotto
+Nella tabella principale, il prezzo/saldo va mostrato in modo chiaro - puoi scegliere liberamente come
+
+Puoi decidere tu:
+- Il formato del CSV
+- Come validarlo
+- Come gestire eventuali errori (righe invalide, campi mancanti, ecc.)
+
+Linee guida importanti:
+- Non serve fare tutto perfetto o super rifinito
+- Ci interessa più il ragionamento che la quantità di feature
+- UI semplice va benissimo
+
+Consegna:
+- Repository Git (Usa conventional commit come visto nel meet)
+- Breve README con guida su come avviare il progetto
+
+Tempistiche: la consegna stimata è mercoledì, in caso avessi bisogno di più tempo, ti chiediamo di farci sapere.
