@@ -30,4 +30,4 @@ TODO:
 SVILUPPI FUTURI:
  - va assolutamente aggiunto un worker che gestisce l'inserimento dei prodotti se i prodotti sono tantissimi
  - costruire l'infrastruttura di rilascio.
- - 
+ - non ho capito perchè non c'è un codice prodotto. io ho usato "name" come fosse il codice prodotto.

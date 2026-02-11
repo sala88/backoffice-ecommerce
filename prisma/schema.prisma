@@ -1,3 +1,45 @@
+enum ImportStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+model ProductImport {
+  id            String   @id @default(cuid())
+  fileName      String
+  fileHash      String @unique
+  status        ImportStatus
+  totalRows     Int      @default(0)
+  insertedRows  Int      @default(0)
+  updatedRows   Int      @default(0)
+  errorRows     Int      @default(0)
+  errorReport   Json?
+  createdById   String
+  createdBy     User     @relation("UserProductImports", fields: [createdById], references: [id])
+  createdAt     DateTime @default(now())
+  snapshots     ProductSnapshot[]
+  products      Product[]        @relation("LastImportRelation")
+
+  @@index([createdAt])
+}
+
+model ProductSnapshot {
+  id          String   @id @default(cuid())
+  productId   String
+  importId    String
+  name        String
+  description String
+  price       Float
+  discountPct Float?
+  version     Int
+  createdAt   DateTime @default(now())
+  product     Product       @relation(fields: [productId], references: [id], onDelete: Restrict)
+  import      ProductImport @relation(fields: [importId], references: [id], onDelete: Restrict)
+
+  @@index([productId])
+  @@index([importId])
+  @@index([productId, version])
+}
 generator client {
   provider = "prisma-client-js"
 }
@@ -7,15 +49,19 @@ datasource db {
 }
 
 model Product {
-  id          String   @id @default(cuid())
-  name        String   @unique
-  description String
-  price       Float
-  discountPct Float?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(cuid())
+  name          String   @unique
+  description   String
+  price         Float
+  discountPct   Float?
+  version       Int      @default(1)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  snapshots     ProductSnapshot[]
+  lastImportId  String?
+  lastImport    ProductImport? @relation("LastImportRelation", fields: [lastImportId], references: [id])
 
-  @@index([updatedAt])
 }
 
 model User {
@@ -24,8 +70,7 @@ model User {
   password  String
   name      String?
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  productImports ProductImport[] @relation("UserProductImports")
 
   @@index([createdAt])
-  @@index([updatedAt])
 }
