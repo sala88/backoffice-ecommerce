@@ -41,11 +41,17 @@ export async function GET(req: NextRequest) {
 
 
     const responseData = {
-      products: products.map((p) => ({
-        ...p,
-        createdAt: p.createdAt instanceof Date ? p.createdAt.toISOString() : p.createdAt,
-        updatedAt: p.updatedAt instanceof Date ? p.updatedAt.toISOString() : p.updatedAt,
-      })),
+      products: products.map((p) => {
+        const discount = typeof p.discountPct === "number" && p.discountPct > 0 ? (p.price * p.discountPct) / 100 : 0;
+        let totale = Math.round((p.price - discount) * 100) / 100;
+        if (totale < 0) totale = 0;
+        return {
+          ...p,
+          totale,
+          createdAt: p.createdAt instanceof Date ? p.createdAt.toISOString() : p.createdAt,
+          updatedAt: p.updatedAt instanceof Date ? p.updatedAt.toISOString() : p.updatedAt,
+        };
+      }),
       page,
       pageSize,
       total,

@@ -63,6 +63,7 @@ export default function ProductsPage() {
                         <th className="border px-2 py-1">Descrizione</th>
                         <th className="border px-2 py-1">Prezzo</th>
                         <th className="border px-2 py-1">% Sconto</th>
+                        <th className="border px-2 py-1">Totale</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -76,6 +77,7 @@ export default function ProductsPage() {
                           <td className="border px-2 py-1">{p.description}</td>
                           <td className="border px-2 py-1">€ {typeof p.price === "number" ? p.price.toFixed(2) : "-"}</td>
                           <td className="border px-2 py-1">{typeof p.discountPct === "number" ? `${p.discountPct}%` : '-'}</td>
+                          <td className="border px-2 py-1 font-semibold text-green-700">€ {typeof p.totale === "number" ? p.totale.toFixed(2) : '-'}</td>
                         </tr>
                       ))}
                     </tbody>

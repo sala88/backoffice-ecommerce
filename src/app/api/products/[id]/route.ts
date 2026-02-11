@@ -47,9 +47,17 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } } | { params: Promise<{ id: string }> }
 ) {
   try {
+    let params = (context as any).params;
+    if (typeof params.then === "function") {
+      params = await params;
+    }
+    const id = params?.id;
+    if (!id || typeof id !== "string" || id.trim() === "") {
+      return NextResponse.json({ error: "Parametro id mancante o non valido" }, { status: 400 });
+    }
     const data = await req.json();
     const parsed = ProductInputSchema.safeParse(data);
     if (!parsed.success) {
@@ -58,19 +66,16 @@ export async function PUT(
         { status: 400 }
       );
     }
-
     const product = await prisma.product.update({
-      where: { id: params.id },
+      where: { id: String(id) },
       data: parsed.data,
     });
-
     // Serializza le date per Zod
     const productSerialized = {
       ...product,
       createdAt: product.createdAt instanceof Date ? product.createdAt.toISOString() : product.createdAt,
       updatedAt: product.updatedAt instanceof Date ? product.updatedAt.toISOString() : product.updatedAt,
     };
-
     const productParsed = ProductSchema.safeParse(productSerialized);
     if (!productParsed.success) {
       console.error("Errore validazione prodotto aggiornato:", productParsed.error);
@@ -79,7 +84,6 @@ export async function PUT(
         { status: 500 }
       );
     }
-
     return NextResponse.json(productParsed.data);
   } catch (error) {
     console.error(error);

@@ -34,10 +34,16 @@ export default function ProductDetailPage() {
     setSuccess("");
     setError("");
     try {
+      // Converte price e discountPct in numero
+      const payload = {
+        ...product,
+        price: product.price !== undefined && product.price !== "" ? Number(product.price) : undefined,
+        discountPct: product.discountPct !== undefined && product.discountPct !== "" ? Number(product.discountPct) : null,
+      };
       const res = await fetch(`/api/products/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(product),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error();
       setSuccess("Prodotto aggiornato!");

@@ -34,6 +34,7 @@ export const ProductSchema = z.object({
   discountPct: z.number().nullable(),
   createdAt: z.string(),
   updatedAt: z.string(),
+  totale: z.number().optional(),
 });
 
 export const PaginatedProductsSchema = z.object({
