@@ -33,6 +33,13 @@ export default function ProductDetailPage() {
   const handleSave = async () => {
     setSuccess("");
     setError("");
+    // CSV validation rules: forbidden substrings
+    const forbidden = ["''", '"'];
+    const fields = [product.name, product.description, String(product.price), String(product.discountPct)];
+    if (fields.some(field => typeof field === "string" && forbidden.some(char => field.includes(char)))) {
+      setError(`Il prodotto contiene caratteri non ammessi (${forbidden.join(", ")})`);
+      return;
+    }
     try {
       // Converte price e discountPct in numero
       const payload = {
@@ -56,9 +63,18 @@ export default function ProductDetailPage() {
     setSuccess("");
     setError("");
     try {
-      const res = await fetch(`/api/products/${id}`, { method: "DELETE" });
+      // Logical delete: send full product data with isActive: false
+      const payload = {
+        ...product,
+        isActive: false,
+      };
+      const res = await fetch(`/api/products/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
       if (!res.ok) throw new Error();
-      setSuccess("Prodotto eliminato con successo!");
+      setSuccess("Prodotto eliminato (logicamente) con successo!");
       setTimeout(() => {
         router.push("/");
       }, 1500);
@@ -75,21 +91,27 @@ export default function ProductDetailPage() {
     <div className="flex min-h-[calc(100vh-120px)] items-center justify-center bg-zinc-50 dark:bg-black">
       <div className="flex flex-col gap-4 bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold mb-2 text-center">Modifica prodotto</h1>
+        <label className="text-sm font-medium mb-1" htmlFor="name">Nome</label>
         <input
+          id="name"
           name="name"
           value={product.name || ""}
           onChange={handleChange}
           className="border rounded px-3 py-2"
           placeholder="Nome"
         />
+        <label className="text-sm font-medium mb-1" htmlFor="description">Descrizione</label>
         <textarea
+          id="description"
           name="description"
           value={product.description || ""}
           onChange={handleChange}
           className="border rounded px-3 py-2"
           placeholder="Descrizione"
         />
+        <label className="text-sm font-medium mb-1" htmlFor="price">Prezzo</label>
         <input
+          id="price"
           name="price"
           type="number"
           value={product.price || ""}
@@ -97,8 +119,9 @@ export default function ProductDetailPage() {
           className="border rounded px-3 py-2"
           placeholder="Prezzo"
         />
-        {/* Campo discount rimosso */}
+        <label className="text-sm font-medium mb-1" htmlFor="discountPct">% Sconto (opzionale)</label>
         <input
+          id="discountPct"
           name="discountPct"
           type="number"
           value={product.discountPct || ""}

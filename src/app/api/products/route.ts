@@ -21,6 +21,7 @@ export async function GET(req: NextRequest) {
 
     const [products, total] = await Promise.all([
       prisma.product.findMany({
+        where: { isActive: true },
         orderBy: { updatedAt: "desc" },
         skip,
         take: pageSize,
@@ -34,7 +35,7 @@ export async function GET(req: NextRequest) {
           updatedAt: true,
         },
       }),
-      prisma.product.count(),
+      prisma.product.count({ where: { isActive: true } }),
     ]);
 
 
