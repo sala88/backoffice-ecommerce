@@ -165,6 +165,8 @@ export default function NewProductPage() {
       setSelectedFile(null);
       setCsvContent("");
       setCsvErrors([]);
+      // Navigate to home after success
+      router.push("/");
     } catch (err) {
       setCsvError("Errore durante l'importazione o upload del CSV");
     }
