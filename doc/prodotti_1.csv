@@ -1,6 +1,6 @@
-nome,descrizione,prezzo,discount,discountPct
-T-shirt basic,Maglietta in cotone,12.99,9.99,20
-Jeans slim,Jeans elasticizzati blu,39.99,,
-Sneakers bianche,Sneakers in pelle,59.99,49.99,17
-Cappello estivo,Cappello in paglia,15.00,,
-Zaino scuola,Zaino con tasche,29.90,24.90,17
+nome,descrizione,prezzo,discountPct
+T-shirt basic,Maglietta in cotone,12.99,20
+Jeans slim,Jeans elasticizzati blu,39.99,
+Sneakers bianche,Sneakers in pelle,59.99,17
+Cappello estivo,Cappello in paglia,15.00,
+Zaino scuola,Zaino con tasche,29.90,17

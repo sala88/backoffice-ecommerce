@@ -10,7 +10,6 @@ export const ProductSchema = z.object({
   name: z.string(),
   description: z.string(),
   price: z.number(),
-  discount: z.number().nullable().optional(),
   discountPct: z.number().nullable().optional(),
   createdAt: z.string(),
   updatedAt: z.string(),

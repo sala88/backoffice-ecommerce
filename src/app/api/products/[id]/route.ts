@@ -45,7 +45,6 @@ export async function PUT(
         name: data.name,
         description: data.description,
         price: Number(data.price),
-        discount: data.discount ? Number(data.discount) : null,
         discountPct: data.discountPct ? Number(data.discountPct) : null,
       },
     });

@@ -88,14 +88,7 @@ export default function ProductDetailPage() {
           className="border rounded px-3 py-2"
           placeholder="Prezzo"
         />
-        <input
-          name="discount"
-          type="number"
-          value={product.discount || ""}
-          onChange={handleChange}
-          className="border rounded px-3 py-2"
-          placeholder="Prezzo scontato (opzionale)"
-        />
+        {/* Campo discount rimosso */}
         <input
           name="discountPct"
           type="number"

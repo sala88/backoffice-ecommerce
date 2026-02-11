@@ -46,7 +46,6 @@ export default function DashboardPage() {
                   <th className="border px-2 py-1">Nome</th>
                   <th className="border px-2 py-1">Descrizione</th>
                   <th className="border px-2 py-1">Prezzo</th>
-                  <th className="border px-2 py-1">Sconto</th>
                   <th className="border px-2 py-1">% Sconto</th>
                 </tr>
               </thead>
@@ -60,7 +59,6 @@ export default function DashboardPage() {
                     </td>
                     <td className="border px-2 py-1">{p.description}</td>
                     <td className="border px-2 py-1">€ {typeof p.price === "number" ? p.price.toFixed(2) : "-"}</td>
-                    <td className="border px-2 py-1">{typeof p.discount === "number" ? `€ ${p.discount.toFixed(2)}` : '-'}</td>
                     <td className="border px-2 py-1">{typeof p.discountPct === "number" ? `${p.discountPct}%` : '-'}</td>
                   </tr>
                 ))}

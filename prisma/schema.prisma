@@ -6,8 +6,7 @@ model Product {
   name        String   @unique
   description String
   price       Float
-  discount    Float?   // prezzo scontato (opzionale)
-  discountPct Float?   // percentuale sconto (opzionale)
+  discountPct Float?  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

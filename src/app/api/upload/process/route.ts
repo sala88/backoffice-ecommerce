@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     let imported = 0;
     let errors: string[] = [];
     for (let i = 0; i < records.length; i++) {
-      const [name, description, price, discount, discountPct] = records[i];
+      const [name, description, price, discountPct] = records[i];
       if (!name || !description || !price) {
         errors.push(`Riga ${i+1}: campi obbligatori mancanti`);
         continue;
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
             name,
             description,
             price: parseFloat(price),
-            discount: discount ? parseFloat(discount) : null,
+            discountPct: discountPct ? parseFloat(discountPct) : null,
             discountPct: discountPct ? parseFloat(discountPct) : null,
           }
         });
