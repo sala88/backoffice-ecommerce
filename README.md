@@ -8,15 +8,17 @@ Fasi di sviluppo:
 4 - aggiunto zod per la validazione
 5 - implementato il prima versione di auth login + auth con salvataggio su db e relativo frontend
     ho usato
-    - tailwind
-6 - il token è stato messo su local storage
+    - tailwind, shadcn/ui, lucide-react
+    - bcrypt (per la password), jose (per i JWT)
+6 - il token è stato messo su local storage (si poteva metterlo HttpOnly Cookie che è piu sicuro)
 7 - aggiunto minio per simulare s3 in locale e abozzato il primo giro di upload seguendo:
      a - presigned url
      b - upload file
      c - insert csv row to db
 
+8 - sostituito swagger con zod-to-openapi
+      TODO: la documentazione è generata da 2 fonti.. bigonerebbe aggiungere defineRoute come wrapper per avere una sola dichiarazione e nessuna duplicazione concettuale. Essendo un esercizio è rimasto TODO.
+
 TODO:
      - validare il csv lato fe
      - validare il csv lato be
-
-12 - sostituito swagger con zod-to-openapi
