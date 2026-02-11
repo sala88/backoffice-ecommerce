@@ -17,7 +17,7 @@ export default function ProductDetailPage() {
     fetch(`/api/products/${id}`)
       .then(res => res.json())
       .then(data => {
-        setProduct(data.product);
+        setProduct(data); // <-- usa direttamente l'oggetto ricevuto
         setLoading(false);
       })
       .catch(() => {
