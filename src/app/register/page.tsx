@@ -2,11 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { z } from "zod";
-const registerSchema = z.object({
-  email: z.string().email({ message: "Email non valida" }),
-  password: z.string().min(6, { message: "Password deve essere almeno 6 caratteri" }),
-});
+import { RegisterRequestSchema } from "@/lib/zodSchemas";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -21,7 +17,7 @@ export default function RegisterPage() {
     setError("");
     setSuccess("");
     // Validazione con zod
-    const result = registerSchema.safeParse({ email, password });
+    const result = RegisterRequestSchema.safeParse({ email, password });
     if (!result.success) {
       const firstError = result.error.errors?.[0]?.message || "Invalid input";
       setError(firstError);

@@ -1,13 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
+
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = typeof window !== "undefined" && localStorage.getItem("token");
+      if (token) {
+        // Verifica validità token chiamando un endpoint protetto
+        try {
+          const res = await fetch("/api/products", {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (res.ok) {
+            router.replace("/dashboard");
+          }
+        } catch (e) {
+          // Token non valido o errore di rete, resta su login
+        }
+      }
+    };
+    checkToken();
+  }, [router]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

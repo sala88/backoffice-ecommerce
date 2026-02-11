@@ -1,11 +1,11 @@
-
-
 "use client";
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function Home() {
+export default function ProductsPage() {
+  const router = useRouter();
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -14,6 +14,11 @@ export default function Home() {
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
+    const token = typeof window !== "undefined" && localStorage.getItem("token");
+    if (!token) {
+      router.replace("/login");
+      return;
+    }
     setLoading(true);
     fetch(`/api/products?page=${page}&pageSize=${pageSize}`)
       .then(res => res.json())
@@ -26,12 +31,13 @@ export default function Home() {
         setError("Errore nel caricamento prodotti");
         setLoading(false);
       });
-  }, [page, pageSize]);
+  }, [router, page, pageSize]);
 
   return (
-    <div className="flex min-h-[calc(100vh-120px)] items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex w-full max-w-3xl flex-col items-center justify-center py-16 px-6 bg-white dark:bg-black sm:items-start">
-        <h1 className="text-2xl font-bold mb-4 text-center">Catalogo Prodotti</h1>
+    <div className="flex min-h-[calc(100vh-120px)] items-center justify-center bg-zinc-50 dark:bg-black">
+      <div className="flex flex-col gap-6 bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-md w-full max-w-3xl w-full">
+        <h1 className="text-2xl font-bold mb-2 text-center">Prodotti</h1>
+        <Button onClick={() => router.push("/products/new")}>Carica nuovo prodotto</Button>
         {loading ? (
           <div>Caricamento prodotti...</div>
         ) : error ? (
@@ -69,15 +75,19 @@ export default function Home() {
                   </table>
                 </div>
                 <div className="flex justify-center gap-2 mt-4">
-                  <button disabled={page === 1} onClick={() => setPage(page - 1)} className="px-3 py-1 border rounded disabled:opacity-50">Pagina precedente</button>
+                  <Button disabled={page === 1} onClick={() => setPage(page - 1)}>
+                    Pagina precedente
+                  </Button>
                   <span className="self-center">Pagina {page} di {totalPages}</span>
-                  <button disabled={page === totalPages} onClick={() => setPage(page + 1)} className="px-3 py-1 border rounded disabled:opacity-50">Pagina successiva</button>
+                  <Button disabled={page === totalPages} onClick={() => setPage(page + 1)}>
+                    Pagina successiva
+                  </Button>
                 </div>
               </>
             )}
           </>
         )}
-      </main>
+      </div>
     </div>
   );
 }

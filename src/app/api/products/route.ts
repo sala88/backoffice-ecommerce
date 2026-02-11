@@ -1,13 +1,73 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "../../../lib/prisma";
+import { prisma } from "@/lib/prisma";
+
+import { ProductSchema, PaginatedProductsSchema } from "@/lib/zodSchemas";
 
 export async function GET(req: NextRequest) {
   try {
-    const products = await prisma.product.findMany({
-      orderBy: { updatedAt: "desc" },
-    });
-    return NextResponse.json({ products });
-  } catch (err) {
-    return NextResponse.json({ error: "Errore caricamento prodotti" }, { status: 500 });
+    const { searchParams } = new URL(req.url);
+
+    const rawPage = parseInt(searchParams.get("page") || "1", 10);
+    const rawPageSize = parseInt(searchParams.get("pageSize") || "20", 10);
+
+    const page = Number.isNaN(rawPage) || rawPage < 1 ? 1 : rawPage;
+    const pageSize =
+      Number.isNaN(rawPageSize) || rawPageSize < 1
+        ? 20
+        : Math.min(rawPageSize, 100);
+
+    const skip = (page - 1) * pageSize;
+
+
+    const [products, total] = await Promise.all([
+      prisma.product.findMany({
+        orderBy: { updatedAt: "desc" },
+        skip,
+        take: pageSize,
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          price: true,
+          discountPct: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      }),
+      prisma.product.count(),
+    ]);
+
+
+
+
+    const responseData = {
+      products: products.map((p) => ({
+        ...p,
+        createdAt: p.createdAt instanceof Date ? p.createdAt.toISOString() : p.createdAt,
+        updatedAt: p.updatedAt instanceof Date ? p.updatedAt.toISOString() : p.updatedAt,
+      })),
+      page,
+      pageSize,
+      total,
+      totalPages: Math.ceil(total / pageSize),
+    };
+
+    // Validazione Zod
+    const parsed = PaginatedProductsSchema.safeParse(responseData);
+    if (!parsed.success) {
+      console.error("Errore validazione risposta prodotti:", parsed.error);
+      return NextResponse.json(
+        { error: "Errore validazione risposta prodotti" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(parsed.data);
+  } catch (err: any) {
+    console.error("Errore caricamento prodotti:", err);
+    return NextResponse.json(
+      { error: "Errore caricamento prodotti" },
+      { status: 500 }
+    );
   }
 }

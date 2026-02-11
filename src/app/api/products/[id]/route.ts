@@ -1,28 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-
-type RouteContext = {
-  params: {
-    id: string;
-  };
-};
+import { ProductSchema, ProductInputSchema } from "@/lib/zodSchemas";
 
 export async function GET(
   req: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  context: { params: { id: string } } | { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await context.params;
-
+    let params = (context as any).params;
+    if (typeof params.then === "function") {
+      params = await params;
+    }
+    const id = params?.id;
+    if (!id || typeof id !== "string" || id.trim() === "") {
+      return NextResponse.json({ error: "Parametro id mancante o non valido" }, { status: 400 });
+    }
     const product = await prisma.product.findUnique({
-      where: { id },
+      where: { id: String(id) },
     });
-
     if (!product) {
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
-
-    return NextResponse.json(product);
+    // Serializza le date per Zod
+    const productSerialized = {
+      ...product,
+      createdAt: product.createdAt instanceof Date ? product.createdAt.toISOString() : product.createdAt,
+      updatedAt: product.updatedAt instanceof Date ? product.updatedAt.toISOString() : product.updatedAt,
+    };
+    const parsed = ProductSchema.safeParse(productSerialized);
+    if (!parsed.success) {
+      console.error("Errore validazione prodotto:", parsed.error);
+      return NextResponse.json(
+        { error: "Errore validazione prodotto" },
+        { status: 500 }
+      );
+    }
+    return NextResponse.json(parsed.data);
   } catch (error) {
     console.error(error);
     return NextResponse.json(
@@ -34,22 +47,40 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: RouteContext
+  { params }: { params: { id: string } }
 ) {
   try {
     const data = await req.json();
+    const parsed = ProductInputSchema.safeParse(data);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Dati prodotto non validi", details: parsed.error.flatten() },
+        { status: 400 }
+      );
+    }
 
     const product = await prisma.product.update({
       where: { id: params.id },
-      data: {
-        name: data.name,
-        description: data.description,
-        price: Number(data.price),
-        discountPct: data.discountPct ? Number(data.discountPct) : null,
-      },
+      data: parsed.data,
     });
 
-    return NextResponse.json(product);
+    // Serializza le date per Zod
+    const productSerialized = {
+      ...product,
+      createdAt: product.createdAt instanceof Date ? product.createdAt.toISOString() : product.createdAt,
+      updatedAt: product.updatedAt instanceof Date ? product.updatedAt.toISOString() : product.updatedAt,
+    };
+
+    const productParsed = ProductSchema.safeParse(productSerialized);
+    if (!productParsed.success) {
+      console.error("Errore validazione prodotto aggiornato:", productParsed.error);
+      return NextResponse.json(
+        { error: "Errore validazione prodotto aggiornato" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json(productParsed.data);
   } catch (error) {
     console.error(error);
     return NextResponse.json(
@@ -61,7 +92,7 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: RouteContext
+  { params }: { params: { id: string } }
 ) {
   try {
     await prisma.product.delete({

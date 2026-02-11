@@ -1,6 +1,85 @@
+
 nome,descrizione,prezzo,discountPct
 T-shirt basic,Maglietta in cotone,12.99,20
 Jeans slim,Jeans elasticizzati blu,39.99,
 Sneakers bianche,Sneakers in pelle,59.99,17
 Cappello estivo,Cappello in paglia,15.00,
 Zaino scuola,Zaino con tasche,29.90,17
+Smartphone Galaxy S,Telefono Android 6.5'' 128GB,299.99,10
+Frullatore ProMix,Frullatore 1000W con 5 velocità,49.99,15
+Lampada da tavolo,LED dimmerabile con USB,24.99,20
+Set pentole inox,3 pezzi acciaio inox,79.99,25
+Mouse wireless,Mouse ottico ergonomico,19.99,30
+Monitor 24 pollici,Full HD IPS 75Hz,129.99,35
+Zerbino cocco,Zerbino antiscivolo 60x40cm,14.99,40
+Tostapane 2 fette,Funzione scongelamento,29.99,45
+Orologio fitness,Cardiofrequenzimetro e GPS,59.99,50
+Pantaloni cargo,Tasche laterali,34.99,55
+Giacca impermeabile,Antipioggia con cappuccio,69.99,60
+Scarpe running,Suola memory foam,89.99,65
+Zaino trekking,30L con schienale traspirante,54.99,70
+Cuffie bluetooth,Autonomia 30h,39.99,75
+Tastiera meccanica,Retroilluminata RGB,79.99,80
+Set asciugamani,100% cotone 3 pezzi,24.99,85
+Tenda oscurante,140x280cm,29.99,90
+Tavolino salotto,Legno massello,99.99,95
+Sedia ergonomica,Schienale regolabile,119.99,99
+Cornice digitale,Display 10 pollici,59.99,10
+Stampante WiFi,Compatibile AirPrint,89.99,15
+Zaino porta PC,15.6'' imbottito,39.99,20
+Tappeto bagno,Antiscivolo 50x80cm,17.99,25
+Set coltelli cucina,Acciaio inox 5 pezzi,34.99,30
+Piumone matrimoniale,4 stagioni,69.99,35
+Tavolo pieghevole,Alluminio 120x60cm,49.99,40
+Lampada LED soffitto,Plafoniera 36W,44.99,45
+Set valigie rigide,3 pezzi con TSA,129.99,50
+Bilancia smart,Analisi massa corporea,29.99,55
+Ferro da stiro,2200W piastra ceramica,39.99,60
+Tostapane vintage,Design anni '50,54.99,65
+Macchina caffè espresso,Compatta 15 bar,79.99,70
+Zaino sportivo,Multitasche,24.99,75
+Piastra capelli,Keratin Care,49.99,80
+Set lenzuola,100% cotone matrimoniale,34.99,85
+Tappetino yoga,Antiscivolo 183x61cm,19.99,90
+Cuscino memory,Ergonomico cervicale,24.99,95
+Lampada da scrivania,LED con ricarica wireless,39.99,99
+Zaino scuola bimbi,Con personaggi cartoon,22.99,10
+Tenda doccia,Poliestere 180x200cm,14.99,15
+Set bicchieri vetro,6 pezzi 300ml,12.99,20
+Tazza termica,Acciaio inox 400ml,9.99,25
+Portafoglio uomo,Pelle con RFID,19.99,30
+Ombrello antivento,Compatto richiudibile,16.99,35
+Set posate,24 pezzi acciaio inox,29.99,40
+Tappeto cucina,Antiscivolo 50x150cm,17.99,45
+Sedia pieghevole,Struttura in metallo,24.99,50
+Tavolo balcone,Quadrato 70x70cm,39.99,55
+Set tazzine caffè,6 pezzi porcellana,14.99,60
+Lampada da terra,LED 3 intensità,44.99,65
+Tenda zanzariera,Porta finestra magnetica,19.99,70
+Set pentole antiaderenti,3 pezzi,49.99,75
+Tappeto ingresso,Antiscivolo 40x60cm,9.99,80
+Set asciugamani ospite,2 pezzi cotone,7.99,85
+Tavolino pieghevole,Legno naturale,29.99,90
+Sedia da ufficio,Schienale traspirante,59.99,95
+Lampada da comodino,Touch dimmerabile,19.99,99
+Tappeto soggiorno,160x230cm,49.99,10
+Set bicchieri colorati,6 pezzi,11.99,15
+Tazza mug,Porcellana 350ml,5.99,20
+Portachiavi auto,Pelle con anello,3.99,25
+Orologio da parete,Silenzioso design moderno,14.99,30
+Set cuscini arredo,2 pezzi 45x45cm,19.99,35
+Tenda camera,Oscurante 140x280cm,24.99,40
+Tavolo consolle,Allungabile fino a 3m,199.99,45
+Sedia imbottita,Tessuto grigio,34.99,50
+Lampada LED esterno,Impermeabile IP65,24.99,55
+Tappeto cameretta,Bimbi 120x170cm,29.99,60
+Set lenzuola singolo,100% cotone,19.99,65
+Tenda a rullo,Oscurante 100x200cm,14.99,70
+Tavolino rotondo,Metallo bianco,24.99,75
+Sedia pieghevole legno,Legno naturale,29.99,80
+Lampada applique,LED 12W,19.99,85
+Tappeto bagno antiscivolo,50x80cm,9.99,90
+Set asciugamani bagno,3 pezzi cotone,14.99,95
+Tavolo da pranzo,Legno massello 180x90cm,299.99,99
+Prodotto 99,Descrizione prodotto 99,103.99,90
+Prodotto 100,Descrizione prodotto 100,104.99,95

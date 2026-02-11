@@ -1,70 +1,31 @@
 import { z } from "zod";
+import {
+  ProductSchema,
+  ProductsResponseSchema,
+  ProductResponseSchema,
+  ErrorResponseSchema,
+  RegisterRequestSchema,
+  RegisterResponseSchema,
+  LoginRequestSchema,
+  LoginResponseSchema,
+  LogoutResponseSchema,
+  HealthResponseSchema
+} from "@/lib/zodSchemas";
 import { OpenAPIRegistry, OpenApiGeneratorV3, extendZodWithOpenApi } from "@asteasolutions/zod-to-openapi";
 extendZodWithOpenApi(z);
 
 const registry = new OpenAPIRegistry();
 
 // Product schemas
-export const ProductSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string(),
-  price: z.number(),
-  discountPct: z.number().nullable().optional(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
-});
 registry.register("Product", ProductSchema);
-
-export const ProductsResponseSchema = z.object({
-  products: z.array(ProductSchema)
-});
 registry.register("ProductsResponse", ProductsResponseSchema);
-
-export const ProductResponseSchema = z.object({
-  product: ProductSchema
-});
 registry.register("ProductResponse", ProductResponseSchema);
-
-export const ErrorResponseSchema = z.object({
-  error: z.string()
-});
 registry.register("ErrorResponse", ErrorResponseSchema);
-
-// Auth schemas
-export const RegisterRequestSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(6),
-});
 registry.register("RegisterRequest", RegisterRequestSchema);
-
-export const RegisterResponseSchema = z.object({
-  ok: z.boolean(),
-});
 registry.register("RegisterResponse", RegisterResponseSchema);
-
-export const LoginRequestSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
 registry.register("LoginRequest", LoginRequestSchema);
-
-export const LoginResponseSchema = z.object({
-  ok: z.boolean(),
-});
 registry.register("LoginResponse", LoginResponseSchema);
-
-export const LogoutResponseSchema = z.object({
-  message: z.string(),
-});
 registry.register("LogoutResponse", LogoutResponseSchema);
-
-// Health schemas
-export const HealthResponseSchema = z.object({
-  status: z.string(),
-  timestamp: z.string(),
-  message: z.string(),
-});
 registry.register("HealthResponse", HealthResponseSchema);
 
 // API paths

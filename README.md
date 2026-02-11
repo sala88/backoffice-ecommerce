@@ -22,3 +22,12 @@ Fasi di sviluppo:
 TODO:
      - validare il csv lato fe
      - validare il csv lato be
+
+
+
+
+
+SVILUPPI FUTURI:
+ - va assolutamente aggiunto un worker che gestisce l'inserimento dei prodotti se i prodotti sono tantissimi
+ - costruire l'infrastruttura di rilascio.
+ - 
