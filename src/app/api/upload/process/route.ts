@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
         discountPct: parsedDiscount,
       });
       if (!parsed.success) {
-        const errorMsg = parsed.error.errors.map(e => e.message).join(", ");
+        const errorMsg = parsed.error.issues.map((e: any) => e.message).join(", ");
         throw new Error(`Riga ${index + 1}: ${errorMsg}`);
       }
       return parsed.data;

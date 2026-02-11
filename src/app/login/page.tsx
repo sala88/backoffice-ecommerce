@@ -50,7 +50,7 @@ export default function LoginPage() {
         if (data.token) {
           localStorage.setItem("token", data.token);
         }
-        window.location.href = "/dashboard";
+        window.location.href = "/";
       }
     } catch (err) {
       setError("Errore di rete");

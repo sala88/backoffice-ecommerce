@@ -2,7 +2,7 @@ import { prisma } from "../../../../lib/prisma";
 import bcrypt from "bcrypt";
 import { createToken, setAuthCookie } from "../../../../lib/auth";
 import { NextRequest, NextResponse } from "next/server";
-import { RegisterRequestSchema, RegisterResponseSchema, ErrorResponseSchema } from "../../../../lib/openapi";
+import { RegisterRequestSchema, RegisterResponseSchema, ErrorResponseSchema } from "../../../../lib/zodSchemas";
 
 export async function POST(req: NextRequest) {
   try {

@@ -2,7 +2,8 @@ import { prisma } from "../../../../lib/prisma"
 import bcrypt from "bcrypt"
 import { createToken, setAuthCookie } from "../../../../lib/auth"
 import { NextRequest, NextResponse } from "next/server"
-import { LoginRequestSchema, LoginResponseSchema, ErrorResponseSchema } from "../../../../lib/openapi"
+import { LoginRequestSchema, LoginResponseSchema } from "../../../../lib/zodSchemas"
+import { ErrorResponseSchema } from "../../../../lib/zodSchemas"
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,7 +26,7 @@ export async function POST(req: NextRequest) {
     }
     const token = await createToken(user.id, user.email)
     await setAuthCookie(token)
-    return NextResponse.json(LoginResponseSchema.parse({ ok: true }))
+    return NextResponse.json({ ok: true, token })
   } catch (err: any) {
     console.error(err)
     return NextResponse.json(ErrorResponseSchema.parse({ error: err && typeof err === "object" && "message" in err ? (err as any).message : "Server error" }), { status: 500 })

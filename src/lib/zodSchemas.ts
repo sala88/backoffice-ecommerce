@@ -1,3 +1,6 @@
+export const HealthResponseSchema = z.object({
+  status: z.string(),
+});
 // Auth schemas
 export const RegisterRequestSchema = z.object({
   email: z.string().email({ message: "Email non valida" }),

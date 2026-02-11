@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default function ProductsPage() {
+
+export default function ProductsPage({ publicView = false }: { publicView?: boolean }) {
   const router = useRouter();
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -13,10 +14,12 @@ export default function ProductsPage() {
   const [pageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState<number>(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const token = typeof window !== "undefined" && localStorage.getItem("token");
-    if (!token) {
+    setIsLoggedIn(!!token);
+    if (!publicView && !token) {
       router.replace("/login");
       return;
     }
@@ -33,7 +36,7 @@ export default function ProductsPage() {
         setError("Errore nel caricamento prodotti");
         setLoading(false);
       });
-  }, [router, page, pageSize]);
+  }, [router, page, pageSize, publicView]);
 
   return (
     <div className="flex min-h-[calc(100vh-120px)] items-center justify-center bg-zinc-50 dark:bg-black">
@@ -44,7 +47,9 @@ export default function ProductsPage() {
             Totale: {total}
           </span>
         </div>
-        <Button onClick={() => router.push("/products/new")}>Carica nuovo prodotto</Button>
+        {!publicView && isLoggedIn && (
+          <Button onClick={() => router.push("/products/new")}>Carica nuovo prodotto</Button>
+        )}
         {loading ? (
           <div>Caricamento prodotti...</div>
         ) : error ? (
