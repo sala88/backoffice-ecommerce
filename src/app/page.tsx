@@ -1,83 +1,8 @@
 
 
-"use client";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [page, setPage] = useState(1);
-  const [pageSize] = useState(20);
-  const [totalPages, setTotalPages] = useState(1);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch(`/api/products?page=${page}&pageSize=${pageSize}`)
-      .then(res => res.json())
-      .then(data => {
-        setProducts(data.products || []);
-        setTotalPages(data.totalPages || 1);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Errore nel caricamento prodotti");
-        setLoading(false);
-      });
-  }, [page, pageSize]);
-
-  return (
-    <div className="flex min-h-[calc(100vh-120px)] items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex w-full max-w-3xl flex-col items-center justify-center py-16 px-6 bg-white dark:bg-black sm:items-start">
-        <h1 className="text-2xl font-bold mb-4 text-center">Catalogo Prodotti</h1>
-        {loading ? (
-          <div>Caricamento prodotti...</div>
-        ) : error ? (
-          <div className="text-red-500">{error}</div>
-        ) : (
-          <>
-            {products.length === 0 ? (
-              <div className="text-center text-zinc-500 py-8">Non ci sono prodotti.</div>
-            ) : (
-              <>
-                <div className="overflow-x-auto w-full">
-                  <table className="min-w-full border text-sm">
-                    <thead>
-                      <tr className="bg-zinc-100 dark:bg-zinc-800">
-                        <th className="border px-2 py-1">Nome</th>
-                        <th className="border px-2 py-1">Descrizione</th>
-                        <th className="border px-2 py-1">Prezzo</th>
-                        <th className="border px-2 py-1">% Sconto</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {products.map((p) => (
-                        <tr key={p.id}>
-                          <td className="border px-2 py-1">
-                            <Link href={`/products/${p.id}`} className="text-blue-600 underline hover:text-blue-800">
-                              {p.name}
-                            </Link>
-                          </td>
-                          <td className="border px-2 py-1">{p.description}</td>
-                          <td className="border px-2 py-1">€ {typeof p.price === "number" ? p.price.toFixed(2) : "-"}</td>
-                          <td className="border px-2 py-1">{typeof p.discountPct === "number" ? `${p.discountPct}%` : '-'}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <div className="flex justify-center gap-2 mt-4">
-                  <button disabled={page === 1} onClick={() => setPage(page - 1)} className="px-3 py-1 border rounded disabled:opacity-50">Pagina precedente</button>
-                  <span className="self-center">Pagina {page} di {totalPages}</span>
-                  <button disabled={page === totalPages} onClick={() => setPage(page + 1)} className="px-3 py-1 border rounded disabled:opacity-50">Pagina successiva</button>
-                </div>
-              </>
-            )}
-          </>
-        )}
-      </main>
-    </div>
-  );
+	redirect("/products");
+	return null;
 }

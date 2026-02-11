@@ -52,7 +52,10 @@ export default function ProductDetailPage() {
     try {
       const res = await fetch(`/api/products/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error();
-      router.push("/dashboard");
+      setSuccess("Prodotto eliminato con successo!");
+      setTimeout(() => {
+        router.push("/");
+      }, 1500);
     } catch {
       setError("Errore eliminazione prodotto");
     }
@@ -102,7 +105,7 @@ export default function ProductDetailPage() {
         <div className="flex gap-2 mt-2">
           <Button onClick={handleSave}>Salva</Button>
           <Button variant="destructive" onClick={handleDelete}>Elimina</Button>
-          <Button variant="outline" onClick={() => router.push("/dashboard")}>Indietro</Button>
+          <Button variant="outline" onClick={() => router.push("/")}>Indietro</Button>
         </div>
       </div>
     </div>

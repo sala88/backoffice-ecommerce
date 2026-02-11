@@ -10,8 +10,9 @@ export default function ProductsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
-  const [pageSize] = useState(20);
+  const [pageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
     const token = typeof window !== "undefined" && localStorage.getItem("token");
@@ -25,6 +26,7 @@ export default function ProductsPage() {
       .then(data => {
         setProducts(data.products || []);
         setTotalPages(data.totalPages || 1);
+        setTotal(data.total || 0);
         setLoading(false);
       })
       .catch(() => {
@@ -36,7 +38,12 @@ export default function ProductsPage() {
   return (
     <div className="flex min-h-[calc(100vh-120px)] items-center justify-center bg-zinc-50 dark:bg-black">
       <div className="flex flex-col gap-6 bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-md w-full max-w-3xl w-full">
-        <h1 className="text-2xl font-bold mb-2 text-center">Prodotti</h1>
+        <div className="flex items-center justify-between mb-2">
+          <h1 className="text-2xl font-bold text-center">Prodotti</h1>
+          <span className="ml-4 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-semibold border border-blue-200 whitespace-nowrap">
+            Totale: {total}
+          </span>
+        </div>
         <Button onClick={() => router.push("/products/new")}>Carica nuovo prodotto</Button>
         {loading ? (
           <div>Caricamento prodotti...</div>

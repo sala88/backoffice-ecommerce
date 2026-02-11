@@ -8,12 +8,12 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
 
     const rawPage = parseInt(searchParams.get("page") || "1", 10);
-    const rawPageSize = parseInt(searchParams.get("pageSize") || "20", 10);
+    const rawPageSize = parseInt(searchParams.get("pageSize") || "10", 10);
 
     const page = Number.isNaN(rawPage) || rawPage < 1 ? 1 : rawPage;
     const pageSize =
       Number.isNaN(rawPageSize) || rawPageSize < 1
-        ? 20
+        ? 10
         : Math.min(rawPageSize, 100);
 
     const skip = (page - 1) * pageSize;

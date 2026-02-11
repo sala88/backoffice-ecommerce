@@ -106,7 +106,7 @@ export default function NewProductPage() {
         <button
           type="button"
           className="self-start mb-2 bg-gray-200 dark:bg-zinc-800 text-gray-800 dark:text-white rounded px-3 py-1 hover:bg-gray-300 dark:hover:bg-zinc-700 transition"
-          onClick={() => router.push('/dashboard')}
+          onClick={() => router.push('/')}
         >
           ← Indietro
         </button>

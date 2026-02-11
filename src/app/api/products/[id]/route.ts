@@ -92,13 +92,20 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } } | { params: Promise<{ id: string }> }
 ) {
   try {
+    let params = (context as any).params;
+    if (typeof params.then === "function") {
+      params = await params;
+    }
+    const id = params?.id;
+    if (!id || typeof id !== "string" || id.trim() === "") {
+      return NextResponse.json({ error: "Parametro id mancante o non valido" }, { status: 400 });
+    }
     await prisma.product.delete({
-      where: { id: params.id },
+      where: { id: String(id) },
     });
-
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error(error);
